@@ -1,55 +1,216 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="FieldForge AI turns real-world work problems into practical next steps.">
-<title>FieldForge AI</title>
-<style>
-:root{--bg:#eef2ec;--card:#fffdf8;--ink:#17231d;--muted:#627067;--green:#245b43;--accent:#d28b2f;--line:#d7ddd7}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8f8f2,var(--bg));line-height:1.5}.wrap{width:min(1050px,calc(100% - 24px));margin:auto}header{padding:22px 0;font-weight:900}.brand span{color:var(--green)}.hero{text-align:center;padding:36px 0}.hero h1{font-size:clamp(2.3rem,7vw,5rem);line-height:.95;margin:8px 0 18px;letter-spacing:-.05em}.hero h1 em{font-style:normal;color:var(--green)}.hero p{max-width:760px;margin:auto;color:var(--muted);font-size:1.1rem}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#e4eee8;color:var(--green);font-size:.8rem;font-weight:800}.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-bottom:45px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 12px 35px rgba(25,55,38,.1)}h2{margin-top:0}label{display:block;font-weight:750;margin:15px 0 6px}input,textarea,select{width:100%;padding:11px 12px;border:1px solid #cbd3cc;border-radius:11px;background:white;font:inherit}textarea{min-height:90px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.examples{display:grid;grid-template-columns:1fr 1fr;gap:8px}.examples button,button{border:0;border-radius:11px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer}.examples button{background:#edf1ed;text-align:left}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.primary{background:var(--green);color:white}.secondary{background:#e7ece7}.output{white-space:pre-wrap;overflow-wrap:anywhere;border:1px dashed #bbc6bd;border-radius:12px;padding:14px;background:#fff;min-height:135px;color:#344239}.notice{margin-top:15px;padding:12px;border-left:4px solid var(--accent);background:#fff7e9;border-radius:8px}footer{text-align:center;color:var(--muted);padding:0 15px 30px;font-size:.85rem}@media(max-width:800px){.layout{grid-template-columns:1fr}}@media(max-width:520px){.grid,.examples{grid-template-columns:1fr}.actions button{width:100%}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FieldForge AI turns real-world work problems into practical solution paths, safer prototype plans, and clear next steps.">
+  <meta name="theme-color" content="#1f5a40">
+  <title>FieldForge AI — Practical problem solving for hands-on work</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="wrap"><div class="brand">FIELD<span>FORGE</span> AI</div></header>
-<section class="hero wrap"><span class="badge">OPENAI BUILD WEEK PROTOTYPE</span><h1>Turn field problems into <em>practical next steps.</em></h1><p>A guided workflow for farmers, ranchers, tradespeople, mechanics, contractors, inventors, makers, and hobbyists.</p></section>
-<main class="wrap layout">
-<section class="card">
-<h2>1. Capture the real problem</h2>
-<p>Describe it like you would explain it to someone standing beside you on the job.</p>
-<label>Try an example</label>
-<div class="examples"><button type="button" data-example="pool">Pool filter cleaning tool</button><button type="button" data-example="farm">Portable fencing cart</button><button type="button" data-example="mechanic">Unavailable equipment bracket</button><button type="button" data-example="ranch">Safer ATV tool storage</button></div>
-<div class="grid"><div><label for="role">User or trade</label><select id="role"><option>Farmer or rancher</option><option>Pool service technician</option><option>Mechanic</option><option>Tradesperson or contractor</option><option>Inventor or maker</option><option>Hobbyist</option></select></div><div><label for="goal">Main goal</label><select id="goal"><option>Fix a recurring problem</option><option>Improve an existing tool</option><option>Design a new product</option><option>Create a safer workflow</option><option>Explore a business opportunity</option></select></div></div>
-<label for="problem">What is happening?</label><textarea id="problem" placeholder="What is slow, unsafe, expensive, tiring, or missing?"></textarea>
-<label for="equipment">Equipment, materials, or conditions</label><textarea id="equipment" placeholder="Models, materials, weather, terrain, pressure, electricity, chemicals, animals, etc."></textarea>
-<label for="tried">What has already been tried?</label><textarea id="tried"></textarea>
-<div class="grid"><div><label for="budget">First-test budget</label><select id="budget"><option>$0-$25</option><option>$25-$100</option><option>$100-$500</option><option>Unknown</option></select></div><div><label for="experience">Experience</label><select id="experience"><option>Experienced in the field</option><option>Intermediate</option><option>Beginner</option><option>Helping someone else</option></select></div></div>
-<label for="constraints">Limits and safety concerns</label><textarea id="constraints" placeholder="Transportation, tools, size, weight, codes, physical limits, safety risks, etc."></textarea>
-<div class="actions"><button id="build" class="primary" type="button">Create GPT-5.6 field brief</button><button id="clear" class="secondary" type="button">Clear</button></div>
-<div class="notice"><strong>Safety:</strong> FieldForge organizes questions and options. It does not replace licensed professionals, manuals, codes, or qualified technical review.</div>
-</section>
-<section class="card">
-<h2>2. Use GPT-5.6 as the reasoning layer</h2>
-<p>Generate the structured brief, copy it into GPT-5.6, and paste the resulting plan below.</p>
-<label>Generated GPT-5.6 brief</label><div id="prompt" class="output">Complete the form to create a structured field brief.</div>
-<div class="actions"><button id="copy" class="primary" type="button">Copy prompt</button><button id="sample" class="secondary" type="button">Show sample output</button></div>
-<label for="result">Paste the GPT-5.6 report here</label><textarea id="result" style="min-height:190px"></textarea>
-<div class="actions"><button id="save" class="primary" type="button">Save project</button><button id="download" class="secondary" type="button">Download report</button></div>
-<p id="status" aria-live="polite"></p>
-</section>
-</main>
-<footer>FieldForge AI · Justin Crawford · All Element Innovations LLC</footer>
-<script>
-const $=id=>document.getElementById(id);const examples={pool:{role:'Pool service technician',goal:'Design a new product',problem:'Cleaning cartridge pool filters is slow, messy, and physically tiring. Standard hose nozzles do not reach deeply between pleats without wasting time and water.',equipment:'Garden hose, cartridge filter, spray nozzle, dirty water and chemical residue.',tried:'Jet nozzles, fan spray, rotating by hand, rinsing one pleat at a time.',constraints:'Low cost, handheld, durable, standard hose connection, reduced wrist strain, must not damage filter fabric.'},farm:{role:'Farmer or rancher',goal:'Improve an existing tool',problem:'Moving fencing tools, wire, posts, and small repair parts across a pasture takes too many trips and leaves supplies disorganized.',equipment:'ATV, tools, wire, posts, rough pasture and rain.',tried:'Buckets, crates and loose tool bags.',constraints:'Stable on rough ground, weather resistant, removable and usable with gloves.'},mechanic:{role:'Mechanic',goal:'Fix a recurring problem',problem:'A mounting bracket on older equipment is cracked and the original replacement is discontinued.',equipment:'Older machine, steel bracket, bolts, vibration, grease, heat and basic fabrication tools.',tried:'Used-part searches, temporary reinforcement and contacting the manufacturer.',constraints:'Must preserve alignment and load capacity. Qualified review is required before full-load use.'},ranch:{role:'Farmer or rancher',goal:'Create a safer workflow',problem:'Long-handled tools and recovery gear shift on an ATV during ranch work, causing damage, noise and a safety hazard.',equipment:'ATV rack, shovel, rake, fencing tools, tow strap, mud and uneven terrain.',tried:'Bungee cords, baskets and PVC tubes.',constraints:'No sharp edges, no interference with rider movement, quick access and secure during sudden stops.'}};
-document.querySelectorAll('[data-example]').forEach(b=>b.addEventListener('click',()=>{const e=examples[b.dataset.example];Object.entries(e).forEach(([k,v])=>$(k).value=v)}));
-function values(){return{role:$('role').value,goal:$('goal').value,problem:$('problem').value.trim(),equipment:$('equipment').value.trim(),tried:$('tried').value.trim(),budget:$('budget').value,experience:$('experience').value,constraints:$('constraints').value.trim()}}
-function brief(d){return`You are FieldForge AI, a practical problem-solving and invention copilot for hands-on workers.\n\nUSER CONTEXT\n- User or trade: ${d.role}\n- Goal: ${d.goal}\n- Experience: ${d.experience}\n- First-test budget: ${d.budget}\n\nREAL-WORLD PROBLEM\n${d.problem}\n\nEQUIPMENT / MATERIALS / ENVIRONMENT\n${d.equipment||'Not provided'}\n\nWHAT HAS ALREADY BEEN TRIED\n${d.tried||'Not provided'}\n\nCONSTRAINTS AND SAFETY CONCERNS\n${d.constraints||'Not provided'}\n\nCreate a report with: 1) clear problem statement, 2) five diagnostic questions, 3) likely causes or unmet needs, 4) repair, modification and invention paths, 5) cheapest safe prototype, 6) materials and tools, 7) safety boundaries and stop-work triggers, 8) measurable field tests, 9) experts or programs to contact, 10) business options, and 11) three simple next actions. Use plain language. Respect real budget, transportation, physical and equipment limits. Do not invent specifications. Clearly flag work requiring a qualified or licensed professional.`}
-$('build').addEventListener('click',()=>{const d=values();if(!d.problem){$('status').textContent='Describe the problem first.';return}$('prompt').textContent=brief(d);localStorage.setItem('fieldforgeDraft',JSON.stringify(d));$('status').textContent='Brief created.'});
-$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('prompt').textContent);$('status').textContent='Prompt copied. Paste it into GPT-5.6.'}catch{$('status').textContent='Select and copy the prompt manually.'}});
-$('sample').addEventListener('click',()=>{$('result').value='SAMPLE OUTPUT - NOT A LIVE GPT-5.6 RESPONSE\n\n1. Record measurements, photos and model numbers.\n2. Identify stop-work risks and professional review requirements.\n3. Build the cheapest low-risk mock-up.\n4. Test one variable at a time and record results.\n5. Interview two other users to confirm the problem is shared.'});
-$('save').addEventListener('click',()=>{const d=values();localStorage.setItem('fieldforgeSaved',JSON.stringify({date:new Date().toISOString(),data:d,prompt:$('prompt').textContent,result:$('result').value}));$('status').textContent='Project saved on this device.'});
-$('download').addEventListener('click',()=>{const d=values();const text=`FIELD FORGE AI PROJECT\n\nProblem: ${d.problem}\nRole: ${d.role}\nGoal: ${d.goal}\nDate: ${new Date().toLocaleString()}\n\nGPT-5.6 BRIEF\n${$('prompt').textContent}\n\nFIELD FORGE REPORT\n${$('result').value}`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download='fieldforge-report.txt';a.click();URL.revokeObjectURL(a.href)});
-$('clear').addEventListener('click',()=>{['problem','equipment','tried','constraints','result'].forEach(id=>$(id).value='');$('prompt').textContent='Complete the form to create a structured field brief.';$('status').textContent=''});
-const draft=JSON.parse(localStorage.getItem('fieldforgeDraft')||'null');if(draft)Object.entries(draft).forEach(([k,v])=>{if($(k))$(k).value=v});
-</script>
+  <a class="skip-link" href="#workspace">Skip to the FieldForge workspace</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="FieldForge AI home">FIELD<span>FORGE</span> AI</a>
+      <span class="privacy-chip" title="Field data stays in this browser unless you choose to copy or download it">Browser-local by design</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="page-title">
+      <span class="badge">OPENAI BUILD WEEK PROTOTYPE</span>
+      <h1 id="page-title">Turn field problems into <em>practical next steps.</em></h1>
+      <p>Capture hard-earned job knowledge, build a safety-aware GPT-5.6 brief, and leave with a prototype and testing plan you can actually use.</p>
+      <ol class="steps" aria-label="FieldForge workflow">
+        <li><span>1</span> Describe</li>
+        <li><span>2</span> Reason with GPT-5.6</li>
+        <li><span>3</span> Save and test</li>
+      </ol>
+    </section>
+
+    <div id="workspace" class="wrap layout" tabindex="-1">
+      <section class="card" aria-labelledby="capture-heading">
+        <p class="eyebrow">STEP 1</p>
+        <h2 id="capture-heading">Capture the real problem</h2>
+        <p>Explain it as if someone were standing beside you on the job. Specific details produce a more useful brief.</p>
+
+        <form id="problem-form" novalidate>
+          <fieldset class="examples-fieldset">
+            <legend>Start with an example</legend>
+            <div class="examples">
+              <button type="button" data-example="pool">Pool filter tool</button>
+              <button type="button" data-example="farm">Portable fencing cart</button>
+              <button type="button" data-example="mechanic">Equipment bracket</button>
+              <button type="button" data-example="ranch">ATV tool storage</button>
+            </div>
+          </fieldset>
+
+          <div class="grid">
+            <div class="field">
+              <label for="role">User or trade</label>
+              <select id="role" name="role">
+                <option>Farmer or rancher</option>
+                <option>Pool service technician</option>
+                <option>Mechanic</option>
+                <option>Tradesperson or contractor</option>
+                <option>Inventor or maker</option>
+                <option>Hobbyist</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="goal">Main goal</label>
+              <select id="goal" name="goal">
+                <option>Fix a recurring problem</option>
+                <option>Improve an existing tool</option>
+                <option>Design a new product</option>
+                <option>Create a safer workflow</option>
+                <option>Explore a business opportunity</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="projectTitle">Project name <span class="optional">Optional</span></label>
+            <input id="projectTitle" name="projectTitle" maxlength="80" autocomplete="off" placeholder="Example: Low-strain filter cleaner">
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="problem">What is happening? <span aria-hidden="true">*</span></label>
+              <span id="problem-count" class="counter">0 / 1200</span>
+            </div>
+            <textarea id="problem" name="problem" required minlength="20" maxlength="1200" aria-describedby="problem-help" placeholder="What is slow, unsafe, expensive, tiring, unreliable, or missing?"></textarea>
+            <p id="problem-help" class="help">Use at least 20 characters. Include who is affected and when the problem occurs.</p>
+          </div>
+
+          <div class="field">
+            <label for="equipment">Equipment, materials, and conditions</label>
+            <textarea id="equipment" name="equipment" maxlength="800" placeholder="Models, measurements, materials, weather, terrain, pressure, electricity, chemicals, animals, or other conditions."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="tried">What has already been tried?</label>
+            <textarea id="tried" name="tried" maxlength="800" placeholder="Include what partly worked, failed, or created a new problem."></textarea>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="budget">First-test budget</label>
+              <select id="budget" name="budget">
+                <option>$0–$25</option>
+                <option>$25–$100</option>
+                <option>$100–$500</option>
+                <option>Unknown</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="experience">Experience</label>
+              <select id="experience" name="experience">
+                <option>Experienced in the field</option>
+                <option>Intermediate</option>
+                <option>Beginner</option>
+                <option>Helping someone else</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="risk">Highest risk involved <span aria-hidden="true">*</span></label>
+            <select id="risk" name="risk" required aria-describedby="risk-help">
+              <option value="general">General planning or low-risk mock-up</option>
+              <option value="machinery">Powered equipment, vehicles, or machinery</option>
+              <option value="electrical">Electricity, batteries, or electrical controls</option>
+              <option value="pressure-chemical">Pressure, heat, fuel, or chemicals</option>
+              <option value="structural">Structural, lifting, towing, or load-bearing work</option>
+              <option value="health-animal">Human health, animal welfare, or food-contact work</option>
+              <option value="unknown">Not sure — help me identify the risks</option>
+            </select>
+            <p id="risk-help" class="help">FieldForge uses this to strengthen stop-work triggers and expert routing.</p>
+          </div>
+
+          <div class="field">
+            <label for="constraints">Limits and safety concerns</label>
+            <textarea id="constraints" name="constraints" maxlength="800" aria-describedby="constraints-help" placeholder="Transportation, tools, size, weight, codes, physical limits, bystanders, failure consequences, or safety concerns."></textarea>
+            <p id="constraints-help" class="help">Required for elevated or unknown-risk work.</p>
+          </div>
+
+          <label class="check-row" for="safetyAck">
+            <input id="safetyAck" name="safetyAck" type="checkbox" required>
+            <span>I understand this is a planning aid. I will stop and seek qualified help when work involves danger, codes, critical loads, health, or unfamiliar equipment.</span>
+          </label>
+
+          <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden></div>
+
+          <div class="actions">
+            <button class="primary" type="submit">Create GPT-5.6 field brief</button>
+            <button id="clear" class="secondary" type="button">Start over</button>
+          </div>
+        </form>
+
+        <aside class="notice warning" aria-label="Safety warning">
+          <strong>Safety boundary</strong>
+          <p>FieldForge organizes questions and options. It cannot inspect the jobsite and does not replace manuals, codes, emergency services, or qualified professional review. If danger is immediate, stop work and move to safety.</p>
+        </aside>
+      </section>
+
+      <section class="card output-card" aria-labelledby="reasoning-heading">
+        <p class="eyebrow">STEPS 2–3</p>
+        <h2 id="reasoning-heading">Reason with GPT-5.6, then save</h2>
+
+        <aside class="notice info" aria-label="How the AI handoff works">
+          <strong>Transparent GPT-5.6 handoff</strong>
+          <p>This prototype does not call an API or send data automatically. It builds a structured prompt on your device. You choose whether to copy that prompt into GPT-5.6 in ChatGPT or Codex.</p>
+        </aside>
+
+        <div class="field">
+          <label for="prompt">Generated GPT-5.6 field brief</label>
+          <pre id="prompt" class="output" tabindex="0" aria-describedby="prompt-help">Complete the required fields to create a structured field brief.</pre>
+          <p id="prompt-help" class="help">The brief asks GPT-5.6 to compare options, expose assumptions, set safety boundaries, and create measurable field tests.</p>
+        </div>
+
+        <div class="actions">
+          <button id="copy" class="primary" type="button" disabled>Copy brief</button>
+          <a class="button secondary" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Open ChatGPT <span class="sr-only">in a new tab</span></a>
+          <button id="sample" class="secondary" type="button">Show sample report</button>
+        </div>
+
+        <div class="field">
+          <label for="result">Paste the GPT-5.6 report here</label>
+          <textarea id="result" name="result" class="report-input" maxlength="30000" placeholder="The response stays in this browser unless you download it."></textarea>
+        </div>
+
+        <div class="actions">
+          <button id="save" class="primary" type="button" disabled>Save project on this device</button>
+          <button id="download" class="secondary" type="button" disabled>Download report</button>
+        </div>
+
+        <details class="saved-panel">
+          <summary>Saved projects <span id="saved-count" class="count-badge">0</span></summary>
+          <div class="saved-controls">
+            <label for="saved-projects">Choose a project</label>
+            <select id="saved-projects">
+              <option value="">No saved projects yet</option>
+            </select>
+            <div class="actions compact">
+              <button id="load" class="secondary" type="button" disabled>Load selected</button>
+              <button id="delete" class="danger" type="button" disabled>Delete selected</button>
+            </div>
+          </div>
+        </details>
+
+        <p class="privacy-note"><strong>Privacy:</strong> Drafts and saved projects use this browser’s local storage. Nothing is uploaded by FieldForge. Clearing browser data or using another device will not preserve these projects, so download important reports.</p>
+        <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">FieldForge AI · Justin Crawford · All Element Innovations LLC · Build Week prototype</div>
+  </footer>
+
+  <noscript><p class="noscript">FieldForge needs JavaScript to build, save, and download project briefs.</p></noscript>
+  <script src="app.js"></script>
 </body>
 </html>
